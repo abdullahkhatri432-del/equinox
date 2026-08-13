@@ -74,13 +74,13 @@ export function AdminLayout({
             </nav>
 
             <div className="p-4 border-t border-gray-700">
-              <Button
+              <button
                 size="sm"
                 variant="outline"
                 onClick={() => window.location.href = "/"}
               >
                 <LogOut className="w-4 h-4" /> Logout
-              </Button>
+              </button>
             </div>
           </aside>
 

@@ -1,4 +1,4 @@
-import { Dashboard, Clock, Heart, Shield, Users as Users2, TrendingUp, Folder, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Clock, Heart, Shield, Users as Users2, TrendingUp, Folder, Settings, LogOut } from "lucide-react";
 
 export function AdminDashboard() {
   return (
@@ -7,7 +7,7 @@ export function AdminDashboard() {
       <div className="group bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0">
-            <Dashboard className="w-6 h-6 text-primary-600 group-hover:text-primary-500 transition-colors" />
+            <LayoutDashboard className="w-6 h-6 text-primary-600 group-hover:text-primary-500 transition-colors" />
           </div>
           <div>
             <h3 className="text-sm text-gray-500 uppercase tracking-wider">Overview</h3>

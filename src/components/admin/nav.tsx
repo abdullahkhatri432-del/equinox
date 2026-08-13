@@ -1,9 +1,9 @@
-import { NavBar } from "./layout";
+import { AdminDashboard } from "@/components/admin/page";
 
 export function AdminNav() {
   return (
-    <NavBar title="Equinox Admin">
+    <div>
       <AdminDashboard />
-    </NavBar>
+    </div>
   );
 }
