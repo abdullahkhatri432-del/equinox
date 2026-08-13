@@ -1,0 +1,52 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"><style>
+  :root { --bg:#0b0b0d; --soft:#131316; --ink:#ece8df; --mist:#a6a195;
+          --faint:#6f6b62; --gold:#c9a25f; --goldb:#e6c383; --copper:#b0713c; --line:#26262b; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:100%; height:100%; overflow:hidden; background:var(--bg); }
+  body {
+    font-family:'Manrope', system-ui, sans-serif; color:var(--ink);
+    font-size:15px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .canvas { position:relative; width:100%; height:100%; overflow:hidden;
+            display:flex; flex-direction:column; justify-content:center; padding: 4em 5em; }
+  .serif { font-family:'Playfair Display', Georgia, serif; font-weight:400; }
+  .eyebrow { font-size:.72em; letter-spacing:.42em; text-transform:uppercase;
+             color:var(--gold); font-weight:600; }
+  .hairline { height:1px; background:linear-gradient(90deg, transparent, var(--line) 18%, var(--line) 82%, transparent); }
+  .cta { display:inline-flex; align-items:center; gap:.6em; padding:.9em 1.8em;
+         border-radius:999px; font-size:.78em; font-weight:700; letter-spacing:.08em;
+         background:var(--gold); color:#0b0b0d; text-decoration:none; }
+  .cta::after { content:"→"; }
+  .faint { color:var(--faint); }
+
+  .bg { position:absolute; inset:0; }
+  .bg img { width:100%; height:100%; object-fit:cover; filter:saturate(.85) contrast(1.06); }
+  .veil { position:absolute; inset:0; background:
+    linear-gradient(90deg, rgba(11,11,13,.96) 0%, rgba(11,11,13,.78) 38%, rgba(11,11,13,.25) 68%, rgba(11,11,13,.35) 100%),
+    radial-gradient(120% 90% at 85% 20%, rgba(201,162,95,.28), transparent 55%),
+    radial-gradient(120% 120% at 20% 110%, rgba(176,113,60,.22), transparent 60%); }
+  .copy { position:relative; z-index:2; max-width:34em; }
+  .canvas{padding:4em 6em;}
+  .headline { margin-top:.5em; font-size:clamp(2em,4.6em,5.4em); line-height:1.02; }
+  .headline em { font-style:italic; color:var(--goldb); }
+  .sub { margin-top:1.1em; color:var(--mist); line-height:1.55; font-size:1em; max-width:26em; }
+  .cta { margin-top:1.7em; }
+  .top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between;
+         align-items:center; padding:1.6em 2.2em; font-size:.62em; }
+  .top .brand { letter-spacing:.4em; }
+  .index { position:absolute; right:2.2em; bottom:1.4em; font-size:.6em; color:var(--faint);
+           letter-spacing:.3em; }
+</style></head><body>
+  <div class="canvas">
+    <div class="bg"><img src="../../../public/images/products/aurelia-bone.jpg" alt="Aurelia Bone watch"></div>
+    <div class="veil"></div>
+    <div class="top"><span class="brand">EQUINOX</span><span class="eyebrow">NEW SEASON</span></div>
+    <div class="copy">
+      <h1 class="serif headline">The Hour<br>& The <em>Light</em></h1>
+      <p class="sub">Watches engineered to the second. Sunglasses tuned to the light.</p>
+      <a class="cta" href="#">Explore the collections</a>
+    </div>
+    <div class="index">COLLECTION 01 — 02</div>
+  </div>
+</body></html>
