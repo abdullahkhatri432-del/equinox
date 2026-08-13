@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Bell, Folder, Users, Settings, LogOut, Shield, ChartSquare, TrendingUp, Users as UsersIcon } from "lucide-react";
+import { Bell, Folder, Users, Settings, LogOut, Shield, ChartArea, TrendingUp, Users as UsersIcon } from "lucide-react";
 
 export function AdminLayout({
   children,
@@ -32,7 +32,7 @@ export function AdminLayout({
                 className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-800 text-white font-medium transition-colors"
                 style={{ color: "currentColor" }}
               >
-                <ChartSquare className="w-5 h-5" />
+                <ChartArea className="w-5 h-5" />
                 <span>Dashboard</span>
               </Link>
 
@@ -75,11 +75,10 @@ export function AdminLayout({
 
             <div className="p-4 border-t border-gray-700">
               <button
-                size="sm"
-                variant="outline"
+                className="w-full px-4 py-2 rounded-md bg-gray-800 text-white text-sm font-medium hover:bg-gray-700 transition-colors"
                 onClick={() => window.location.href = "/"}
               >
-                <LogOut className="w-4 h-4" /> Logout
+                <LogOut className="w-4 h-4 mr-2" /> Logout
               </button>
             </div>
           </aside>

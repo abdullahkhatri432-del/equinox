@@ -89,3 +89,13 @@ export function AdminDashboard() {
     </section>
   );
 }
+
+export const metadata = {
+  title: "Equinox Admin",
+  description: "Admin dashboard for Equinox timepiece and eyewear marketplace",
+};
+
+// This default export satisfies the AppPageConfig constraint
+export default function Page() {
+  return null;
+}

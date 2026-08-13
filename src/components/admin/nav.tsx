@@ -1,4 +1,4 @@
-import { AdminDashboard } from "@/components/admin/page";
+import AdminDashboard from "../../app/admin/page";
 
 export function AdminNav() {
   return (
