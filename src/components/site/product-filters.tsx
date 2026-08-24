@@ -41,6 +41,11 @@ type CategoryId = (typeof CATEGORIES)[number]["id"];
 type RangeId = (typeof PRICE_RANGES)[number]["id"];
 type SortId = (typeof SORTS)[number]["id"];
 
+interface Keyword {
+  term: string;
+  kind: string;
+}
+
 function FilterOption({
   active,
   children,
@@ -86,6 +91,43 @@ export function ProductFilters({ initialView }: { initialView: string }) {
   const [range, setRange] = useState<RangeId>("any");
   const [sort, setSort] = useState<SortId>("featured");
   const [query, setQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [highlight, setHighlight] = useState(-1);
+
+  // Keyword vocabulary derived from the catalogue
+  const vocabulary = useMemo<Keyword[]>(() => {
+    const map = new Map<string, Keyword>();
+    const add = (term: string | null | undefined, kind: string) => {
+      if (!term) return;
+      const key = term.toLowerCase();
+      if (!map.has(key)) map.set(key, { term, kind });
+    };
+    for (const p of products) {
+      add(p.name, "instrument");
+      add(p.badge, "trait");
+      add(p.category === "watches" ? "Watches" : "Sunglasses", "collection");
+      for (const m of p.materials) add(m, "material");
+    }
+    return [...map.values()];
+  }, []);
+
+  const POPULAR = ["Tourbillon", "Titanium", "Photochromic", "GMT"]
+    .map((t) => t.toLowerCase())
+    .map((t) => vocabulary.find((v) => v.term.toLowerCase() === t))
+    .filter((v): v is Keyword => Boolean(v));
+
+  const suggestions = useMemo<Keyword[]>(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    const starts = vocabulary.filter((v) => v.term.toLowerCase().startsWith(q));
+    const contains = vocabulary.filter(
+      (v) => !v.term.toLowerCase().startsWith(q) && v.term.toLowerCase().includes(q)
+    );
+    return [...starts, ...contains].slice(0, 7);
+  }, [query, vocabulary]);
+
+  const showSuggestions = searchFocused && suggestions.length > 0;
+  const showPopular = searchFocused && query.trim() === "" && POPULAR.length > 0;
 
   // Keep the URL in sync so filtered views can be shared/bookmarked
   useEffect(() => {
@@ -125,6 +167,31 @@ export function ProductFilters({ initialView }: { initialView: string }) {
     setRange("any");
     setSort("featured");
     setQuery("");
+    setHighlight(-1);
+  };
+
+  const applyKeyword = (term: string) => {
+    setQuery(term);
+    setSearchFocused(false);
+    setHighlight(-1);
+  };
+
+  const onSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const list = query.trim() ? suggestions : POPULAR;
+    if (!list.length) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlight((h) => (h + 1) % list.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlight((h) => (h <= 0 ? list.length - 1 : h - 1));
+    } else if (e.key === "Enter" && highlight >= 0 && list[highlight]) {
+      e.preventDefault();
+      applyKeyword(list[highlight].term);
+    } else if (e.key === "Escape") {
+      setSearchFocused(false);
+      setHighlight(-1);
+    }
   };
 
   return (
@@ -149,13 +216,24 @@ export function ProductFilters({ initialView }: { initialView: string }) {
         <Search
           size={16}
           aria-hidden
-          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-faint"
+          className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-faint"
         />
         <input
           id="product-search"
           type="search"
+          role="combobox"
+          aria-expanded={showSuggestions || showPopular}
+          aria-controls="search-suggestions"
+          aria-autocomplete="list"
+          autoComplete="off"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setHighlight(-1);
+          }}
+          onFocus={() => setSearchFocused(true)}
+          onBlur={() => setSearchFocused(false)}
+          onKeyDown={onSearchKeyDown}
           placeholder="Search by name, material or trait…"
           className="w-full rounded-full border border-line bg-soft py-3 pl-11 pr-11 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold [&::-webkit-search-cancel-button]:hidden"
         />
@@ -164,10 +242,72 @@ export function ProductFilters({ initialView }: { initialView: string }) {
             type="button"
             onClick={() => setQuery("")}
             aria-label="Clear search"
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-faint transition-colors hover:text-foreground"
+            className="absolute right-4 top-1/2 z-10 -translate-y-1/2 text-faint transition-colors hover:text-foreground"
           >
             <X size={15} />
           </button>
+        )}
+
+        {(showSuggestions || showPopular) && (
+          <div
+            id="search-suggestions"
+            role="listbox"
+            aria-label="Search suggestions"
+            className="absolute inset-x-0 top-full z-20 mt-2 overflow-hidden rounded-lg border border-line bg-surface shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)]"
+            onMouseDown={(e) => e.preventDefault()}
+          >
+            {showPopular && (
+              <>
+                <p className="px-5 pb-1 pt-3 text-xs uppercase tracking-[0.2em] text-faint">
+                  Popular searches
+                </p>
+                <div className="flex flex-wrap gap-2 px-5 pb-4 pt-1">
+                  {POPULAR.map((k) => (
+                    <button
+                      key={k.term}
+                      type="button"
+                      role="option"
+                      aria-selected={false}
+                      onClick={() => applyKeyword(k.term)}
+                      className="rounded-full border border-line px-4 py-1.5 text-sm text-muted transition-colors hover:border-gold hover:text-gold"
+                    >
+                      {k.term}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {showSuggestions && (
+              <ul className="py-2">
+                {suggestions.map((k, i) => (
+                  <li key={k.term.toLowerCase()}>
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={highlight === i}
+                      onClick={() => applyKeyword(k.term)}
+                      onMouseEnter={() => setHighlight(i)}
+                      className={cn(
+                        "flex w-full items-center justify-between gap-4 px-5 py-2.5 text-left text-sm transition-colors",
+                        highlight === i
+                          ? "bg-soft text-foreground"
+                          : "text-muted hover:text-foreground"
+                      )}
+                    >
+                      <span className="flex items-center gap-3">
+                        <Search size={13} aria-hidden className="text-faint" />
+                        {k.term}
+                      </span>
+                      <span className="text-xs uppercase tracking-[0.18em] text-faint">
+                        {k.kind}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         )}
       </div>
 
@@ -256,6 +396,20 @@ export function ProductFilters({ initialView }: { initialView: string }) {
                 No instruments match that combination — try another word or widen
                 the filters.
               </p>
+              {suggestions.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-2">
+                  {suggestions.slice(0, 4).map((k) => (
+                    <button
+                      key={k.term}
+                      type="button"
+                      onClick={() => applyKeyword(k.term)}
+                      className="rounded-full border border-line px-4 py-1.5 text-sm text-muted transition-colors hover:border-gold hover:text-gold"
+                    >
+                      {k.term}
+                    </button>
+                  ))}
+                </div>
+              )}
               <button
                 type="button"
                 onClick={clearAll}
