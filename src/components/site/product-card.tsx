@@ -6,11 +6,11 @@ import { formatPrice } from "@/lib/utils";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-md border border-line bg-soft transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]">
+    <article className="group relative flex flex-col overflow-hidden rounded-md border border-line bg-soft transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]">
       <Link
         href={`/products/${product.slug}`}
-        className="relative block aspect-[4/3] w-full overflow-hidden"
-        aria-label={product.name}
+        className="relative block aspect-[4/3] w-full overflow-hidden bg-surface"
+        aria-label={`${product.name} — view details`}
       >
         <Image
           src={product.image}
@@ -26,24 +26,28 @@ export function ProductCard({ product }: { product: Product }) {
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col gap-1 p-5">
-        <div className="flex items-baseline justify-between gap-3">
-          <h3 className="text-base tracking-wide text-foreground transition-colors group-hover:text-gold">
-            <Link href={`/products/${product.slug}`} className="hover:text-gold">
-              {product.name}
-            </Link>
-          </h3>
-          <span className="shrink-0 text-base font-semibold text-foreground">
-            {formatPrice(product.price)}
-          </span>
-        </div>
-        <p className="text-sm text-faint">{product.tagline}</p>
+      <div className="flex flex-1 flex-col p-5">
+        <p className="text-[10px] uppercase tracking-[0.24em] text-faint">
+          {product.category}
+        </p>
 
-        <div className="mt-5 flex items-center justify-between gap-3 pt-1">
-          <span className="text-xs text-faint">{product.category}</span>
-          <AddToCart product={product} variant="outline" className="px-5 py-2.5" />
+        <h3 className="mt-2 text-lg font-semibold tracking-wide text-foreground transition-colors group-hover:text-gold">
+          <Link href={`/products/${product.slug}`} className="hover:text-gold">
+            {product.name}
+          </Link>
+        </h3>
+
+        <p className="mt-1 text-sm leading-relaxed text-muted">{product.tagline}</p>
+
+        <div className="mt-auto pt-5">
+          <div className="flex items-center justify-between gap-3 border-t border-line pt-4">
+            <span className="text-lg font-semibold tracking-wide text-foreground">
+              {formatPrice(product.price)}
+            </span>
+            <AddToCart product={product} variant="outline" className="px-4 py-2 text-sm" />
+          </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

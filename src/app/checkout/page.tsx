@@ -3,17 +3,36 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, Lock, RotateCcw, ShieldCheck, ShoppingBag } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  Lock,
+  RotateCcw,
+  ShieldCheck,
+  ShoppingBag,
+} from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { products } from "@/lib/products";
-import { formatPrice, FREE_SHIPPING_THRESHOLD, SHIPPING_FLAT_RATE } from "@/lib/utils";
+import {
+  cn,
+  formatPrice,
+  FREE_SHIPPING_THRESHOLD,
+  SHIPPING_FLAT_RATE,
+} from "@/lib/utils";
 
 const FIELD =
   "w-full rounded-md border border-line bg-soft px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold";
 
+const LABEL = "mb-2 block text-xs tracking-wide text-muted";
+
+const STEPS = ["Shipping", "Payment"] as const;
+
 export default function CheckoutPage() {
   const { items, subtotal, clear } = useCart();
   const [placed, setPlaced] = useState(false);
+  const [step, setStep] = useState<1 | 2>(1);
   const [orderNo] = useState(
     () => `EQ-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
   );
@@ -28,12 +47,13 @@ export default function CheckoutPage() {
         <CheckCircle2 size={52} className="text-gold" />
         <h1 className="display mt-6 text-4xl sm:text-5xl">Order confirmed</h1>
         <p className="mt-4 text-muted">
-          Thank you — order <span className="font-semibold text-foreground">{orderNo}</span> is
-          being prepared in the atelier. A confirmation is on its way to your inbox.
+          Thank you — order{" "}
+          <span className="font-semibold text-foreground">{orderNo}</span> is being
+          prepared in the atelier. A confirmation is on its way to your inbox.
         </p>
         <Link
           href="/collections"
-          className="mt-10 inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5 text-sm text-foreground transition-colors hover:border-gold hover:text-gold"
+          className="btn-primary mt-10 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold"
         >
           Continue browsing <ArrowRight size={16} />
         </Link>
@@ -58,13 +78,137 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20">
+    <div className="mx-auto max-w-6xl px-6 py-16">
       <p className="eyebrow">Checkout</p>
-      <h1 className="display mt-3 text-5xl sm:text-6xl">Complete your order</h1>
+      <h1 className="display mt-3 text-4xl sm:text-5xl">Complete your order</h1>
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_420px]">
+      {/* Step indicator */}
+      <ol className="mt-8 flex items-center gap-3" aria-label="Checkout progress">
+        {STEPS.map((label, i) => {
+          const n = i + 1;
+          const done = step > n;
+          const current = step === n;
+          return (
+            <li key={label} className="flex items-center gap-3">
+              <span
+                aria-current={current ? "step" : undefined}
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold transition-colors",
+                  done && "border-gold bg-gold text-background",
+                  current && "border-gold text-gold",
+                  !done && !current && "border-line text-faint"
+                )}
+              >
+                {done ? <Check size={14} /> : n}
+              </span>
+              <span
+                className={cn(
+                  "text-xs uppercase tracking-[0.18em]",
+                  current ? "text-foreground" : "text-faint"
+                )}
+              >
+                {label}
+              </span>
+              {n < STEPS.length && (
+                <span aria-hidden className="ml-1 h-px w-8 bg-line sm:w-14" />
+              )}
+            </li>
+          );
+        })}
+      </ol>
+
+      <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_420px]">
+        {/* ------------------------------------------------ Phase 1: shipping */}
         <form
-          className="space-y-10"
+          className={cn("space-y-10", step !== 1 && "hidden")}
+          onSubmit={(e) => {
+            e.preventDefault();
+            setStep(2);
+          }}
+        >
+          <p className="rounded-md border border-line bg-soft px-4 py-3 text-xs leading-relaxed text-muted">
+            All fields are required. Your details are used only to fulfil and
+            insure this order.
+          </p>
+
+          <fieldset>
+            <legend className="eyebrow">Shipping details</legend>
+            <div className="mt-5 grid gap-6 sm:grid-cols-2">
+              <div>
+                <label htmlFor="ck-name" className={LABEL}>
+                  Full name <span aria-hidden className="text-gold">*</span>
+                </label>
+                <input id="ck-name" name="name" required autoComplete="name" className={FIELD} placeholder="Ada Lovelace" />
+              </div>
+              <div>
+                <label htmlFor="ck-email" className={LABEL}>
+                  Email <span aria-hidden className="text-gold">*</span>
+                </label>
+                <input id="ck-email" name="email" type="email" required autoComplete="email" className={FIELD} placeholder="you@example.com" />
+              </div>
+              <div>
+                <label htmlFor="ck-phone" className={LABEL}>
+                  Phone number <span aria-hidden className="text-gold">*</span>
+                </label>
+                <input
+                  id="ck-phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  autoComplete="tel"
+                  pattern="[+0-9][0-9 \-()]{5,20}"
+                  title="Enter a valid phone number, e.g. +39 02 1234 5678"
+                  className={FIELD}
+                  placeholder="+39 02 1234 5678"
+                />
+                <p className="mt-1.5 text-xs text-faint">
+                  For delivery updates and courier contact only.
+                </p>
+              </div>
+              <div>
+                <label htmlFor="ck-country" className={LABEL}>
+                  Country <span aria-hidden className="text-gold">*</span>
+                </label>
+                <select id="ck-country" name="country" required autoComplete="country-name" className={FIELD} defaultValue="Italy">
+                  <option>Italy</option>
+                  <option>United Kingdom</option>
+                  <option>United States</option>
+                  <option>United Arab Emirates</option>
+                  <option>Japan</option>
+                </select>
+              </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="ck-address" className={LABEL}>
+                  Address <span aria-hidden className="text-gold">*</span>
+                </label>
+                <input id="ck-address" name="address" required autoComplete="street-address" className={FIELD} placeholder="12 Avenida del Sol" />
+              </div>
+              <div>
+                <label htmlFor="ck-city" className={LABEL}>
+                  City <span aria-hidden className="text-gold">*</span>
+                </label>
+                <input id="ck-city" name="city" required autoComplete="address-level2" className={FIELD} placeholder="Milano" />
+              </div>
+              <div>
+                <label htmlFor="ck-zip" className={LABEL}>
+                  Postal code <span aria-hidden className="text-gold">*</span>
+                </label>
+                <input id="ck-zip" name="zip" required autoComplete="postal-code" className={FIELD} placeholder="20121" />
+              </div>
+            </div>
+          </fieldset>
+
+          <button
+            type="submit"
+            className="btn-primary inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold tracking-wide sm:w-auto"
+          >
+            Continue to payment <ArrowRight size={16} />
+          </button>
+        </form>
+
+        {/* ------------------------------------------------ Phase 2: payment */}
+        <form
+          className={cn("space-y-10", step !== 2 && "hidden")}
           onSubmit={(e) => {
             e.preventDefault();
             clear();
@@ -72,89 +216,80 @@ export default function CheckoutPage() {
           }}
         >
           <fieldset>
-            <legend className="eyebrow">Shipping details</legend>
-            <div className="mt-5 grid gap-6 sm:grid-cols-2">
-              <div>
-                <label htmlFor="ck-name" className="mb-2 block text-xs tracking-wide text-muted">
-                  Full name
-                </label>
-                <input id="ck-name" name="name" required autoComplete="name" className={FIELD} placeholder="Ada Lovelace" />
-              </div>
-              <div>
-                <label htmlFor="ck-email" className="mb-2 block text-xs tracking-wide text-muted">
-                  Email
-                </label>
-                <input id="ck-email" name="email" type="email" required autoComplete="email" className={FIELD} placeholder="you@example.com" />
-              </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="ck-address" className="mb-2 block text-xs tracking-wide text-muted">
-                  Address
-                </label>
-                <input id="ck-address" name="address" required autoComplete="street-address" className={FIELD} placeholder="12 Avenida del Sol" />
-              </div>
-              <div>
-                <label htmlFor="ck-city" className="mb-2 block text-xs tracking-wide text-muted">
-                  City
-                </label>
-                <input id="ck-city" name="city" required autoComplete="address-level2" className={FIELD} placeholder="Milano" />
-              </div>
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="ck-zip" className="mb-2 block text-xs tracking-wide text-muted">
-                    Postal code
-                  </label>
-                  <input id="ck-zip" name="zip" required autoComplete="postal-code" className={FIELD} placeholder="20121" />
-                </div>
-                <div>
-                  <label htmlFor="ck-country" className="mb-2 block text-xs tracking-wide text-muted">
-                    Country
-                  </label>
-                  <select id="ck-country" name="country" required className={FIELD} defaultValue="Italy">
-                    <option>Italy</option>
-                    <option>United Kingdom</option>
-                    <option>United States</option>
-                    <option>United Arab Emirates</option>
-                    <option>Japan</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset>
             <legend className="eyebrow">Payment</legend>
             <p className="mt-3 flex items-center gap-2 text-xs text-faint">
               <Lock size={13} /> Demonstration checkout — no payment is processed.
             </p>
             <div className="mt-5 grid gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <label htmlFor="ck-card" className="mb-2 block text-xs tracking-wide text-muted">
-                  Card number
+                <label htmlFor="ck-card" className={LABEL}>
+                  Card number <span aria-hidden className="text-gold">*</span>
                 </label>
-                <input id="ck-card" name="card" inputMode="numeric" required autoComplete="cc-number" className={FIELD} placeholder="4242 4242 4242 4242" />
+                <input
+                  id="ck-card"
+                  name="card"
+                  inputMode="numeric"
+                  required
+                  autoComplete="cc-number"
+                  pattern="[0-9 ]{12,23}"
+                  title="Enter the 12–19 digit card number"
+                  maxLength={23}
+                  className={FIELD}
+                  placeholder="4242 4242 4242 4242"
+                />
               </div>
               <div>
-                <label htmlFor="ck-exp" className="mb-2 block text-xs tracking-wide text-muted">
-                  Expiry
+                <label htmlFor="ck-exp" className={LABEL}>
+                  Expiry <span aria-hidden className="text-gold">*</span>
                 </label>
-                <input id="ck-exp" name="expiry" required autoComplete="cc-exp" className={FIELD} placeholder="MM / YY" />
+                <input
+                  id="ck-exp"
+                  name="expiry"
+                  required
+                  autoComplete="cc-exp"
+                  pattern="(0[1-9]|1[0-2])\s*/\s*[0-9]{2}"
+                  title="Enter expiry as MM / YY"
+                  maxLength={7}
+                  className={FIELD}
+                  placeholder="MM / YY"
+                />
               </div>
               <div>
-                <label htmlFor="ck-cvc" className="mb-2 block text-xs tracking-wide text-muted">
-                  CVC
+                <label htmlFor="ck-cvc" className={LABEL}>
+                  CVC <span aria-hidden className="text-gold">*</span>
                 </label>
-                <input id="ck-cvc" name="cvc" inputMode="numeric" required autoComplete="cc-csc" className={FIELD} placeholder="123" />
+                <input
+                  id="ck-cvc"
+                  name="cvc"
+                  inputMode="numeric"
+                  required
+                  autoComplete="cc-csc"
+                  pattern="[0-9]{3,4}"
+                  title="Enter the 3 or 4 digit security code"
+                  maxLength={4}
+                  className={FIELD}
+                  placeholder="123"
+                />
               </div>
             </div>
           </fieldset>
 
           <div className="space-y-4">
-            <button
-              type="submit"
-              className="btn-primary inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold tracking-wide sm:w-auto"
-            >
-              Place order — {formatPrice(total)} <ArrowRight size={16} />
-            </button>
+            <div className="flex flex-wrap items-center gap-4">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="inline-flex items-center gap-2 rounded-full border border-line px-7 py-4 text-sm tracking-wide text-foreground transition-colors hover:border-gold hover:text-gold"
+              >
+                <ArrowLeft size={15} /> Back
+              </button>
+              <button
+                type="submit"
+                className="btn-primary inline-flex flex-1 items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold tracking-wide sm:flex-none"
+              >
+                Place order — {formatPrice(total)} <ArrowRight size={16} />
+              </button>
+            </div>
             <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-faint">
               <span className="inline-flex items-center gap-1.5">
                 <Lock size={13} /> Secure 256-bit encrypted checkout
@@ -169,6 +304,7 @@ export default function CheckoutPage() {
           </div>
         </form>
 
+        {/* ------------------------------------------------------- Summary */}
         <aside className="order-first h-fit rounded-md border border-line bg-soft p-6 lg:order-last lg:sticky lg:top-24">
           <h2 className="eyebrow">Order summary</h2>
           <ul className="mt-5 space-y-5">
