@@ -27,13 +27,12 @@ export function AddToCart({
         window.setTimeout(() => setAdded(false), 1400);
       }}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-colors",
+        "btn-primary inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-[background-color,transform] duration-200",
         variant === "primary"
-          ? "text-background"
-          : "border border-line text-foreground hover:border-gold hover:text-gold",
+          ? ""
+          : "border border-line bg-transparent text-foreground hover:border-gold hover:text-gold",
         className
       )}
-      style={variant === "primary" ? { background: "var(--primary)" } : undefined}
     >
       {added ? (
         <>

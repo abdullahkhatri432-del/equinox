@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Compass, Hourglass, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { collections, products } from "@/lib/products";
+import { formatPrice } from "@/lib/utils";
 import { ProductCard } from "@/components/site/product-card";
 import { NewsletterForm } from "@/components/site/newsletter-form";
+import { TrustStrip } from "@/components/site/trust-strip";
+import { Testimonials } from "@/components/site/testimonials";
 
 export default function HomePage() {
   const featured = products.filter((p) => p.featured).slice(0, 6);
+  const hero = products.find((p) => p.slug === "meridian-38")!;
 
   return (
     <>
@@ -20,47 +24,71 @@ export default function HomePage() {
               "radial-gradient(60% 55% at 72% 30%, rgba(201,162,95,0.16), transparent 65%), radial-gradient(45% 50% at 18% 85%, rgba(183,113,60,0.12), transparent 60%)",
           }}
         />
-        <div className="mx-auto flex min-h-[80vh] max-w-6xl flex-col justify-center px-6 py-20">
-          <p className="eyebrow animate-[fadeIn_0.8s_ease]">Maison of time &amp; light</p>
-          <h1 className="display mt-6 max-w-4xl text-6xl sm:text-7xl lg:text-8xl">
-            The second never waits
-            <br />
-            <em className="gold-text font-normal">for the shadow.</em>
-          </h1>
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted">
-            Precision timepieces and sun-crafted eyewear, designed in Milan and
-            tuned by hand. Instruments, not accessories.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Link
-              href="/collections"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide transition-colors"
-              style={{ background: "var(--primary)", color: "#0b0b0d" }}
-            >
-              Explore the collections <ArrowRight size={16} />
-            </Link>
-            <Link
-              href="/collections?view=watches"
-              className="inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5 text-sm tracking-wide text-foreground transition-colors hover:border-gold hover:text-gold"
-            >
-              The Hour — watches
-            </Link>
+        <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:min-h-[78vh] lg:py-24">
+          <div>
+            <p className="eyebrow animate-[fadeIn_0.8s_ease]">Maison of time &amp; light</p>
+            <h1 className="display mt-6 max-w-xl text-5xl sm:text-6xl lg:text-7xl">
+              The second never waits
+              <br />
+              <em className="gold-text font-normal">for the shadow.</em>
+            </h1>
+            <p className="mt-8 max-w-lg text-lg leading-relaxed text-muted">
+              Precision timepieces and sun-crafted eyewear, designed in Milan and
+              tuned by hand. Instruments, not accessories.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link
+                href="/collections"
+                className="btn-primary inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-wide"
+              >
+                Explore the collections <ArrowRight size={16} />
+              </Link>
+              <Link
+                href="/collections?view=watches"
+                className="inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5 text-sm tracking-wide text-foreground transition-colors hover:border-gold hover:text-gold"
+              >
+                The Hour — watches
+              </Link>
+            </div>
+
+            <TrustStrip className="mt-14 border-t border-line pt-8" />
           </div>
 
-          <div className="mt-16 grid max-w-3xl grid-cols-1 gap-6 border-t border-line pt-8 sm:grid-cols-3">
-            {[
-              { icon: Hourglass, title: "72h of reserve", body: "Fully wound in a single day" },
-              { icon: Sparkles, title: "Hand-ground lenses", body: "Zeiss-class clarity" },
-              { icon: Compass, title: "Traveller-ready", body: "GMT from Milano to anywhere" },
-            ].map((s) => (
-              <div key={s.title} className="flex items-start gap-3">
-                <s.icon size={20} className="mt-0.5 shrink-0 text-gold" />
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{s.title}</p>
-                  <p className="mt-1 text-sm text-faint">{s.body}</p>
-                </div>
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -inset-8 rounded-full opacity-70 blur-3xl"
+              style={{
+                background:
+                  "radial-gradient(50% 50% at 50% 40%, rgba(201,162,95,0.25), transparent 70%)",
+              }}
+            />
+            <Link
+              href={`/products/${hero.slug}`}
+              className="group relative block overflow-hidden rounded-lg border border-line bg-soft shadow-[0_24px_80px_-24px_rgba(0,0,0,0.8)] transition-colors hover:border-gold"
+            >
+              <div className="relative aspect-square">
+                <Image
+                  src={hero.image}
+                  alt={hero.name}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 90vw, 480px"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
               </div>
-            ))}
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-black/80 to-transparent px-6 pb-5 pt-16">
+                <div>
+                  <p className="eyebrow">{hero.badge}</p>
+                  <p className="mt-1 text-sm font-semibold tracking-wide text-white">
+                    {hero.name}
+                  </p>
+                </div>
+                <span className="shrink-0 rounded-full bg-background/85 px-4 py-2 text-sm font-semibold text-gold backdrop-blur-sm transition-colors group-hover:bg-gold group-hover:text-background">
+                  {formatPrice(hero.price)}
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -175,6 +203,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ------------------------------------------------- Social proof */}
+      <Testimonials />
 
       {/* ------------------------------------------------- Newsletter CTA */}
       <section className="border-t border-line bg-soft">

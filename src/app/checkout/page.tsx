@@ -3,10 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, Lock, ShoppingBag } from "lucide-react";
+import { ArrowRight, CheckCircle2, Lock, RotateCcw, ShieldCheck, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { products } from "@/lib/products";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, FREE_SHIPPING_THRESHOLD, SHIPPING_FLAT_RATE } from "@/lib/utils";
 
 const FIELD =
   "w-full rounded-md border border-line bg-soft px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold";
@@ -18,7 +18,8 @@ export default function CheckoutPage() {
     () => `EQ-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
   );
 
-  const shipping = subtotal >= 1500 || subtotal === 0 ? 0 : 45;
+  const shipping =
+    subtotal >= FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : SHIPPING_FLAT_RATE;
   const total = subtotal + shipping;
 
   if (placed) {
@@ -48,8 +49,7 @@ export default function CheckoutPage() {
         <p className="mt-4 text-muted">Your selection is empty.</p>
         <Link
           href="/collections"
-          className="mt-8 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-background"
-          style={{ background: "var(--primary)" }}
+          className="btn-primary mt-8 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold"
         >
           Explore the collections <ArrowRight size={16} />
         </Link>
@@ -148,16 +148,28 @@ export default function CheckoutPage() {
             </div>
           </fieldset>
 
-          <button
-            type="submit"
-            className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold tracking-wide text-background transition-colors"
-            style={{ background: "var(--primary)" }}
-          >
-            Place order — {formatPrice(total)} <ArrowRight size={16} />
-          </button>
+          <div className="space-y-4">
+            <button
+              type="submit"
+              className="btn-primary inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-sm font-semibold tracking-wide sm:w-auto"
+            >
+              Place order — {formatPrice(total)} <ArrowRight size={16} />
+            </button>
+            <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-faint">
+              <span className="inline-flex items-center gap-1.5">
+                <Lock size={13} /> Secure 256-bit encrypted checkout
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <RotateCcw size={13} /> 30-day returns
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <ShieldCheck size={13} /> Lifetime service warranty
+              </span>
+            </p>
+          </div>
         </form>
 
-        <aside className="h-fit rounded-md border border-line bg-soft p-6 lg:sticky lg:top-24">
+        <aside className="order-first h-fit rounded-md border border-line bg-soft p-6 lg:order-last lg:sticky lg:top-24">
           <h2 className="eyebrow">Order summary</h2>
           <ul className="mt-5 space-y-5">
             {items.map((item) => {

@@ -96,8 +96,7 @@ export function ContactForm({ product }: { product?: Product }) {
         ) : (
           <button
             type="submit"
-            className="inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold tracking-wide text-background transition-colors"
-            style={{ background: "var(--primary)" }}
+            className="btn-primary inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-semibold tracking-wide"
           >
             Send to the atelier <ArrowRight size={16} />
           </button>

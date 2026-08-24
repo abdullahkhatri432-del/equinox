@@ -1,11 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  RotateCcw,
+  ShieldCheck,
+  Truck,
+} from "lucide-react";
 import { getProduct, products } from "@/lib/products";
 import { ProductCard } from "@/components/site/product-card";
 import { AddToCart } from "@/components/site/add-to-cart";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, FREE_SHIPPING_THRESHOLD, SHIPPING_FLAT_RATE } from "@/lib/utils";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -109,10 +116,35 @@ export default async function ProductPage(
             </Link>
           </div>
 
-          <p className="mt-8 text-xs leading-relaxed text-faint">
-            All Equinox instruments ship from the Milan atelier with a lifetime
-            service warranty and a certificate of origin.
-          </p>
+          <div className="mt-6 space-y-3 rounded-md border border-line bg-soft p-5 text-sm">
+            <p className="flex items-center gap-2.5">
+              <span
+                aria-hidden
+                className="relative flex h-2 w-2"
+              >
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+              <span>
+                <span className="font-semibold text-foreground">In the atelier</span>{" "}
+                <span className="text-muted">— ships within 48 hours</span>
+              </span>
+            </p>
+            <p className="flex items-center gap-2.5 text-muted">
+              <Truck size={15} className="shrink-0 text-gold" />
+              {product.price >= FREE_SHIPPING_THRESHOLD
+                ? "Complimentary insured shipping on this piece"
+                : `Insured shipping ${formatPrice(SHIPPING_FLAT_RATE)}, complimentary over ${formatPrice(FREE_SHIPPING_THRESHOLD)}`}
+            </p>
+            <p className="flex items-center gap-2.5 text-muted">
+              <RotateCcw size={15} className="shrink-0 text-gold" />
+              30-day returns, collection from your door
+            </p>
+            <p className="flex items-center gap-2.5 text-muted">
+              <ShieldCheck size={15} className="shrink-0 text-gold" />
+              Lifetime service warranty &amp; certificate of origin
+            </p>
+          </div>
         </div>
       </div>
 

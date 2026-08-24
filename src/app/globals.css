@@ -89,6 +89,15 @@ body {
   color: #0b0b0d;
 }
 
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 /* ==========================================================================
    Reusable patterns
    ========================================================================== */
@@ -100,6 +109,19 @@ body {
     text-transform: uppercase;
     color: var(--primary);
     font-weight: 600;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #0b0b0d;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-strong);
+  }
+
+  .btn-primary:active {
+    transform: translateY(1px);
   }
 
   .display {

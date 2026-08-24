@@ -6,10 +6,17 @@ import { useEffect } from "react";
 import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { products } from "@/lib/products";
-import { formatPrice } from "@/lib/utils";
+import {
+  cn,
+  formatPrice,
+  FREE_SHIPPING_THRESHOLD,
+  SHIPPING_FLAT_RATE,
+} from "@/lib/utils";
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, setQuantity, remove, subtotal } = useCart();
+  const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
+  const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -134,18 +141,54 @@ export function CartDrawer() {
             </ul>
 
             <footer className="border-t border-line px-6 py-6">
+              <div className="mb-5">
+                <p
+                  className="text-xs leading-relaxed"
+                  aria-live="polite"
+                >
+                  {remaining > 0 ? (
+                    <>
+                      You&rsquo;re{" "}
+                      <span className="font-semibold text-goldbright">
+                        {formatPrice(remaining)}
+                      </span>{" "}
+                      away from complimentary shipping.
+                    </>
+                  ) : (
+                    <span className="text-gold">Complimentary shipping unlocked.</span>
+                  )}
+                </p>
+                <div
+                  className="mt-2 h-1 overflow-hidden rounded-full bg-surface"
+                  role="progressbar"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={Math.round(progress)}
+                  aria-label="Progress toward free shipping"
+                >
+                  <div
+                    className={cn(
+                      "h-full rounded-full transition-[width] duration-500",
+                      remaining > 0 ? "bg-copper" : "bg-gold"
+                    )}
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
               <div className="flex items-baseline justify-between">
                 <span className="text-sm text-muted">Subtotal</span>
                 <span className="display text-2xl">{formatPrice(subtotal)}</span>
               </div>
               <p className="mt-1 text-xs text-faint">
-                Duties and shipping calculated at checkout.
+                Duties calculated at checkout &middot;{" "}
+                {remaining > 0
+                  ? `otherwise ${formatPrice(SHIPPING_FLAT_RATE)} insured shipping`
+                  : "insured shipping included"}
               </p>
               <Link
                 href="/checkout"
                 onClick={closeCart}
-                className="mt-5 block rounded-full py-3.5 text-center text-sm font-semibold tracking-wide text-background transition-colors"
-                style={{ background: "var(--primary)" }}
+                className="btn-primary mt-5 block rounded-full py-3.5 text-center text-sm font-semibold tracking-wide"
               >
                 Proceed to checkout
               </Link>

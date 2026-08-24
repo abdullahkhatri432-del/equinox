@@ -33,8 +33,7 @@ export function NewsletterForm() {
       />
       <button
         type="submit"
-        className="shrink-0 rounded-full px-6 py-2.5 text-sm font-semibold text-background transition-colors"
-        style={{ background: "var(--primary)" }}
+        className="btn-primary shrink-0 rounded-full px-6 py-2.5 text-sm font-semibold"
       >
         Join
       </button>
