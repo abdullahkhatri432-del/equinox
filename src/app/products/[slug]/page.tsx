@@ -10,10 +10,13 @@ import {
   Truck,
 } from "lucide-react";
 import { getProduct, products } from "@/lib/products";
+import { getCatalogue, getCatalogueProduct } from "@/lib/catalogue";
 import { ProductCard } from "@/components/site/product-card";
 import { AddToCart } from "@/components/site/add-to-cart";
 import { BuyNowButton } from "@/components/site/buy-now-button";
 import { formatPrice, FREE_SHIPPING_THRESHOLD, SHIPPING_FLAT_RATE } from "@/lib/utils";
+
+export const revalidate = 30;
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -21,7 +24,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/products/[slug]">) {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = await getCatalogueProduct(slug);
   return {
     title: product ? `${product.name} — Equinox` : "Equinox",
     description: product?.tagline ?? "Equinox — time & light.",
@@ -32,10 +35,11 @@ export default async function ProductPage(
   props: PageProps<"/products/[slug]">
 ) {
   const { slug } = await props.params;
-  const product = getProduct(slug);
+  const product = await getCatalogueProduct(slug);
   if (!product) notFound();
 
-  const related = products
+  const catalogue = await getCatalogue();
+  const related = catalogue
     .filter((p) => p.category === product.category && p.slug !== product.slug)
     .slice(0, 3);
 

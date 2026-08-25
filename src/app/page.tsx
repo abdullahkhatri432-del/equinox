@@ -1,16 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { collections, products } from "@/lib/products";
+import { collections } from "@/lib/products";
 import { formatPrice } from "@/lib/utils";
+import { getCatalogue } from "@/lib/catalogue";
 import { ProductCard } from "@/components/site/product-card";
 import { NewsletterForm } from "@/components/site/newsletter-form";
 import { TrustStrip } from "@/components/site/trust-strip";
 import { Testimonials } from "@/components/site/testimonials";
 
-export default function HomePage() {
-  const featured = products.filter((p) => p.featured).slice(0, 6);
-  const hero = products.find((p) => p.slug === "meridian-38")!;
+export const revalidate = 30;
+
+export default async function HomePage() {
+  const catalogue = await getCatalogue();
+  const featured = catalogue.filter((p) => p.featured).slice(0, 6);
+  const hero = catalogue.find((p) => p.slug === "meridian-38") ?? catalogue[0];
 
   return (
     <>
@@ -110,7 +114,7 @@ export default function HomePage() {
 
         <div className="grid gap-6 lg:grid-cols-2">
           {collections.map((col) => {
-            const sample = products.find((p) => p.category === col.slug)!;
+            const sample = catalogue.find((p) => p.category === col.slug)!;
             return (
               <Link
                 key={col.slug}

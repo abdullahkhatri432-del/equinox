@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
-import { collections, products } from "@/lib/products";
+import { collections } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import { ProductCard } from "@/components/site/product-card";
 import { cn } from "@/lib/utils";
 
@@ -83,7 +84,13 @@ function FilterOption({
   );
 }
 
-export function ProductFilters({ initialView }: { initialView: string }) {
+export function ProductFilters({
+  initialView,
+  products,
+}: {
+  initialView: string;
+  products: Product[];
+}) {
   const validInitial = CATEGORIES.some((c) => c.id === initialView)
     ? (initialView as CategoryId)
     : "all";

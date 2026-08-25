@@ -59,13 +59,24 @@ export function AdminShell({
             );
           })}
         </nav>
-        <div className="border-t border-line px-6 py-4">
+        <div className="flex items-center justify-between border-t border-line px-6 py-4">
           <Link
             href="/"
             className="text-xs uppercase tracking-[0.18em] text-faint transition-colors hover:text-gold"
           >
-            ← Back to store
+            ← Store
           </Link>
+          <button
+            type="button"
+            onClick={() =>
+              fetch("/api/admin/login", { method: "DELETE" }).then(() => {
+                window.location.href = "/";
+              })
+            }
+            className="text-xs uppercase tracking-[0.18em] text-faint transition-colors hover:text-gold"
+          >
+            Exit console
+          </button>
         </div>
       </aside>
 
