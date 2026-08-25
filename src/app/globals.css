@@ -125,6 +125,15 @@ html {
     transform: translateY(1px);
   }
 
+  .btn-whatsapp {
+    background: #25d366;
+    color: #ffffff;
+  }
+
+  .btn-whatsapp:hover {
+    background: #1ebe5d;
+  }
+
   .display {
     font-family: var(--font-equinox-display), Georgia, serif;
     font-weight: 400;

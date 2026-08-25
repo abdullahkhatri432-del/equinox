@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { products } from "@/lib/products";
+import { cartOrderLink } from "@/lib/whatsapp";
+import { WhatsAppGlyph } from "@/components/site/whatsapp-float";
 import {
   cn,
   formatPrice,
@@ -185,13 +187,18 @@ export function CartDrawer() {
                   ? `otherwise ${formatPrice(SHIPPING_FLAT_RATE)} insured shipping`
                   : "insured shipping included"}
               </p>
-              <Link
-                href="/checkout"
+              <a
+                href={cartOrderLink(items, subtotal)}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={closeCart}
-                className="btn-primary mt-5 block rounded-full py-3.5 text-center text-sm font-semibold tracking-wide"
+                className="btn-whatsapp mt-5 flex items-center justify-center gap-2 rounded-full py-3.5 text-center text-sm font-semibold tracking-wide"
               >
-                Proceed to checkout
-              </Link>
+                <WhatsAppGlyph className="h-4.5 w-4.5" /> Order on WhatsApp
+              </a>
+              <p className="mt-2 text-center text-xs text-faint">
+                Your order list opens in WhatsApp — we confirm delivery there.
+              </p>
             </footer>
           </>
         )}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowRight, Clock, Mail, MapPin } from "lucide-react";
 import type { Product } from "@/lib/products";
+import { whatsappLink } from "@/lib/whatsapp";
 
 const FIELD =
   "w-full rounded-md border border-line bg-soft px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold";
@@ -169,6 +170,17 @@ export function ContactForm({ product }: { product?: Product }) {
             </pre>
           </div>
         ))}
+
+        <a
+          href={whatsappLink(
+            "Hello Equinox! I'd like to ask about a piece."
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-whatsapp flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
+        >
+          Or message us on WhatsApp
+        </a>
 
         <div className="rounded-md border border-line bg-soft p-6">
           <p className="eyebrow">Bespoke</p>
