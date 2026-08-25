@@ -18,7 +18,7 @@ export function AdminSettingsPage() {
               </label>
               <input
                 type="text"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:border-gold"
                 placeholder="Equinox Store"
               />
             </div>
@@ -29,7 +29,7 @@ export function AdminSettingsPage() {
               </label>
               <input
                 type="email"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:border-gold"
                 placeholder="store@equinox.com"
               />
             </div>
@@ -38,7 +38,7 @@ export function AdminSettingsPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Currency
               </label>
-              <select className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500">
+              <select className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:border-gold">
                 <option>USD - US Dollar</option>
                 <option>EUR - Euro</option>
                 <option>GBP - British Pound</option>
@@ -47,7 +47,7 @@ export function AdminSettingsPage() {
             </div>
 
             <button
-              className="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium"
+              className="w-full px-4 py-2 bg-gold text-white rounded-lg hover:bg-goldbright transition-colors text-sm font-medium"
               type="button">
               Save Changes
             </button>
@@ -97,7 +97,7 @@ export function AdminSettingsPage() {
               <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
                 <ImageIcon className="w-5 h-5 text-gray-400" />
                 <span className="text-sm text-gray-500">equinox-logo.svg</span>
-                <button className="text-xs text-primary-600 hover:text-primary-500">Change</button>
+                <button className="text-xs text-gold hover:text-goldbright">Change</button>
               </div>
             </div>
           </div>

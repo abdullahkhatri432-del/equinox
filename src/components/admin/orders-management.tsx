@@ -6,14 +6,14 @@ export function OrdersManagementPage() {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">Order Management</h2>
         <div className="flex items-center gap-2">
-          <select className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+          <select className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-gold">
             <option>All Orders</option>
             <option>Pending</option>
             <option>Processing</option>
             <option>Shipped</option>
             <option>Delivered</option>
           </select>
-          <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+          <button className="px-4 py-2 bg-gold text-white rounded-lg hover:bg-goldbright transition-colors">
             Refresh
           </button>
         </div>
@@ -43,14 +43,14 @@ export function OrdersManagementPage() {
                     <span className="text-xs text-gray-500">2 hours ago</span>
                   </td>
                   <td className="py-4 px-6">
-                    <span className="font-medium text-primary-600">$129.99</span>
+                    <span className="font-medium text-gold">$129.99</span>
                   </td>
                   <td className="py-4 px-6">
                     <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">Processing</span>
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex gap-2">
-                      <button className="text-primary-600 hover:text-primary-500 text-sm view">View</button>
+                      <button className="text-gold hover:text-goldbright text-sm view">View</button>
                       <button className="text-blue-600 hover:text-blue-500 text-sm ship">Ship</button>
                       <button className="text-red-600 hover:text-red-500 text-sm cancel">Cancel</button>
                     </div>
@@ -63,14 +63,14 @@ export function OrdersManagementPage() {
                     <span className="text-xs text-gray-500">Yesterday</span>
                   </td>
                   <td className="py-4 px-6">
-                    <span className="font-medium text-primary-600">$85.50</span>
+                    <span className="font-medium text-gold">$85.50</span>
                   </td>
                   <td className="py-4 px-6">
                     <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Delivered</span>
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex gap-2">
-                      <button className="text-primary-600 hover:text-primary-500 text-sm view">View</button>
+                      <button className="text-gold hover:text-goldbright text-sm view">View</button>
                     </div>
                   </td>
                 </tr>
@@ -84,19 +84,19 @@ export function OrdersManagementPage() {
           <h3 className="text-lg font-medium text-gray-900 mb-4">Order Statistics</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-3xl font-bold text-primary-600">2,438</p>
+              <p className="text-3xl font-bold text-gold">2,438</p>
               <p className="text-sm text-gray-500">Total Orders</p>
             </div>
             <div>
-              <p className="text-3xl font-bold text-success-600">$45,230</p>
+              <p className="text-3xl font-bold text-emerald-600">$45,230</p>
               <p className="text-sm text-gray-500">Total Revenue</p>
             </div>
             <div>
-              <p className="text-3xl font-bold text-info-600">1,247</p>
+              <p className="text-3xl font-bold text-sky-600">1,247</p>
               <p className="text-sm text-gray-500">Pending Orders</p>
             </div>
             <div>
-              <p className="text-3xl font-bold text-warning-600">89</p>
+              <p className="text-3xl font-bold text-amber-600">89</p>
               <p className="text-sm text-gray-500">Shipped Today</p>
             </div>
           </div>

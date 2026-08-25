@@ -5,7 +5,7 @@ export function UsersManagementPage() {
     <section className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">User Management</h2>
-        <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+        <button className="px-4 py-2 bg-gold text-white rounded-lg hover:bg-goldbright transition-colors">
           Invite User
         </button>
       </div>
@@ -31,7 +31,7 @@ export function UsersManagementPage() {
                   <td className="py-4 px-6 font-medium text-gray-900">USR-001</td>
                   <td className="py-4 px-6">Alex Johnson</td>
                   <td className="py-4 px-6">
-                    <a href="mailto:alex@equinox.com" className="text-primary-600 hover:text-primary-500 text-sm">alex@equinox.com</a>
+                    <a href="mailto:alex@equinox.com" className="text-gold hover:text-goldbright text-sm">alex@equinox.com</a>
                   </td>
                   <td className="py-4 px-6">
                     <span className="px-2 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">Admin</span>
@@ -44,7 +44,7 @@ export function UsersManagementPage() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex gap-2">
-                      <button className="text-primary-600 hover:text-primary-500 text-sm">Edit</button>
+                      <button className="text-gold hover:text-goldbright text-sm">Edit</button>
                       <button className="text-red-600 hover:text-red-500 text-sm">Delete</button>
                     </div>
                   </td>
@@ -53,7 +53,7 @@ export function UsersManagementPage() {
                   <td className="py-4 px-6 font-medium text-gray-900">USR-002</td>
                   <td className="py-4 px-6">Maria Rodriguez</td>
                   <td className="py-4 px-6">
-                    <a href="mailto:maria@equinox.com" className="text-primary-600 hover:text-primary-500 text-sm">maria@equinox.com</a>
+                    <a href="mailto:maria@equinox.com" className="text-gold hover:text-goldbright text-sm">maria@equinox.com</a>
                   </td>
                   <td className="py-4 px-6">
                     <span className="px-2 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">Editor</span>
@@ -66,7 +66,7 @@ export function UsersManagementPage() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex gap-2">
-                      <button className="text-primary-600 hover:text-primary-500 text-sm">Edit</button>
+                      <button className="text-gold hover:text-goldbright text-sm">Edit</button>
                       <button className="text-red-600 hover:text-red-500 text-sm">Delete</button>
                     </div>
                   </td>
@@ -75,7 +75,7 @@ export function UsersManagementPage() {
                   <td className="py-4 px-6 font-medium text-gray-900">USR-003</td>
                   <td className="py-4 px-6">Chris Wang</td>
                   <td className="py-4 px-6">
-                    <a href="mailto:chris@equinox.com" className="text-primary-600 hover:text-primary-500 text-sm">chris@equinox.com</a>
+                    <a href="mailto:chris@equinox.com" className="text-gold hover:text-goldbright text-sm">chris@equinox.com</a>
                   </td>
                   <td className="py-4 px-6">
                     <span className="px-2 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">Viewer</span>
@@ -88,7 +88,7 @@ export function UsersManagementPage() {
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex gap-2">
-                      <button className="text-primary-600 hover:text-primary-500 text-sm">Activate</button>
+                      <button className="text-gold hover:text-goldbright text-sm">Activate</button>
                     </div>
                   </td>
                 </tr>
@@ -102,15 +102,15 @@ export function UsersManagementPage() {
           <h3 className="text-lg font-medium text-gray-900 mb-4">User Statistics</h3>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <p className="text-2xl font-bold text-primary-600">4,523</p>
+              <p className="text-2xl font-bold text-gold">4,523</p>
               <p className="text-sm text-gray-500">Total Users</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-success-600">3,891</p>
+              <p className="text-2xl font-bold text-emerald-600">3,891</p>
               <p className="text-sm text-gray-500">Active Users</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-warning-600">632</p>
+              <p className="text-2xl font-bold text-amber-600">632</p>
               <p className="text-sm text-gray-500">Suspended Users</p>
             </div>
           </div>
