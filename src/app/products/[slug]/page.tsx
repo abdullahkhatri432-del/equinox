@@ -110,12 +110,6 @@ export default async function ProductPage(
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <AddToCart product={product} variant="outline" />
             <BuyNowButton product={product} />
-            <Link
-              href={`/contact?product=${product.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5 text-sm tracking-wide text-foreground transition-colors hover:border-gold hover:text-gold"
-            >
-              Request a private viewing <ArrowRight size={16} />
-            </Link>
           </div>
 
           <div className="mt-6 space-y-3 rounded-md border border-line bg-soft p-5 text-sm">
