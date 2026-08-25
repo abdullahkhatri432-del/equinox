@@ -45,16 +45,16 @@ export interface StoreSettings {
 }
 
 export const DEFAULT_SETTINGS: StoreSettings = {
-  storeName: "Equinox",
-  contactEmail: "atelier@equinox.shop",
+  storeName: "SPEEDERSMANIA",
+  contactEmail: "atelier@SPEEDERSMANIA.shop",
   freeShippingThreshold: 1500,
   flatShippingRate: 45,
 };
 
-const ORDERS_KEY = "equinox-orders-v1";
-const USERS_KEY = "equinox-users-v1";
-const SETTINGS_KEY = "equinox-settings-v1";
-export const STORE_EVENT = "equinox-store-changed";
+const ORDERS_KEY = "SPEEDERSMANIA-orders-v1";
+const USERS_KEY = "SPEEDERSMANIA-users-v1";
+const SETTINGS_KEY = "SPEEDERSMANIA-settings-v1";
+export const STORE_EVENT = "SPEEDERSMANIA-store-changed";
 
 function emit() {
   if (typeof window !== "undefined") {
@@ -90,7 +90,7 @@ export function getOrders(): Order[] {
 export function saveOrder(input: Omit<Order, "id" | "createdAt" | "status">): Order {
   const order: Order = {
     ...input,
-    id: `EQ-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+    id: `SM-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
     createdAt: Date.now(),
     status: "pending",
   };

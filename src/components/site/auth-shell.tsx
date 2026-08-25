@@ -28,14 +28,14 @@ export function AuthShell({
               "radial-gradient(60% 50% at 70% 20%, rgba(201,162,95,0.18), transparent 65%), radial-gradient(45% 45% at 15% 90%, rgba(183,113,60,0.14), transparent 60%)",
           }}
         />
-        <p className="display relative text-3xl tracking-wide">Equinox</p>
+        <p className="display relative text-3xl tracking-wide">SPEEDERSMANIA</p>
         <blockquote className="relative">
           <p className="display max-w-sm text-3xl leading-snug">
             &ldquo;Time is the only true luxury —{" "}
             <em className="gold-text font-normal">wear it accordingly.</em>&rdquo;
           </p>
           <footer className="mt-6 text-xs uppercase tracking-[0.28em] text-faint">
-            The Equinox credo, Milano
+            The SPEEDERSMANIA credo, Milano
           </footer>
         </blockquote>
         <ul className="relative space-y-2 text-sm text-muted">

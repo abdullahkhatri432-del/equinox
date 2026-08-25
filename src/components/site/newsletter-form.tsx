@@ -8,7 +8,7 @@ export function NewsletterForm() {
   if (joined) {
     return (
       <p className="mx-auto mt-10 max-w-md rounded-full border border-gold/40 bg-gold/10 px-6 py-3.5 text-sm text-foreground">
-        You are on the list — see you at the next equinox.
+        You are on the list — see you at the next SPEEDERSMANIA.
       </p>
     );
   }

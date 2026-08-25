@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { UsersManagementPage } from "@/components/admin/users-management";
 
-export const metadata: Metadata = { title: "Users — Equinox Admin" };
+export const metadata: Metadata = { title: "Users — SPEEDERSMANIA Admin" };
 
 export default function Page() {
   return (

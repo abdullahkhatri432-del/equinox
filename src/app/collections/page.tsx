@@ -3,9 +3,9 @@ import { getCatalogue } from "@/lib/catalogue";
 import { ProductFilters } from "@/components/site/product-filters";
 
 export const metadata: Metadata = {
-  title: "Collections — Equinox",
+  title: "Collections — SPEEDERSMANIA",
   description:
-    "Browse every Equinox instrument — watches and sunglasses, assembled, adjusted and signed in the Milan atelier.",
+    "Browse every SPEEDERSMANIA instrument — watches and sunglasses, assembled, adjusted and signed in the Milan atelier.",
 };
 
 export const revalidate = 30;

@@ -61,7 +61,7 @@ export const products: Product[] = [
       "A 38 mm dress watch with a sun-brushed dial, blued steel hands and a 70-hour reserve. Thin enough to forget, accurate enough to trust.",
     features: [
       "38 mm bronze case, 9.1 mm thick",
-      "In-house calibre EQX-01, 70 h reserve",
+      "In-house calibre SM-01, 70 h reserve",
       "Sun-brushed silver dial, blued hands",
       "Sapphire crystal, 5 ATM",
     ],

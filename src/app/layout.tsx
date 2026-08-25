@@ -8,19 +8,19 @@ import { AuthProvider } from "@/lib/auth-context";
 import { CartDrawer } from "@/components/site/cart-drawer";
 import { WhatsAppFloat } from "@/components/site/whatsapp-float";
 
-const equinoxDisplay = Playfair_Display({
-  variable: "--font-equinox-display",
+const SPEEDERSMANIADisplay = Playfair_Display({
+  variable: "--font-SPEEDERSMANIA-display",
   subsets: ["latin"],
   style: ["normal", "italic"],
 });
 
-const equinoxSans = Manrope({
-  variable: "--font-equinox-sans",
+const SPEEDERSMANIASans = Manrope({
+  variable: "--font-SPEEDERSMANIA-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "EQUINOX — Time & Light",
+  title: "SPEEDERSMANIA — Time & Light",
   description:
     "Precision timepieces and sun-crafted eyewear. Watches engineered to the second, sunglasses tuned to the light.",
 };
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${equinoxDisplay.variable} ${equinoxSans.variable} h-full antialiased`}
+      className={`${SPEEDERSMANIADisplay.variable} ${SPEEDERSMANIASans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <CartProvider>

@@ -3,8 +3,8 @@ import { AdminShell } from "@/components/admin/admin-shell";
 import { AdminDashboard } from "./dashboard";
 
 export const metadata: Metadata = {
-  title: "Equinox Admin",
-  description: "Admin dashboard for the Equinox atelier",
+  title: "SPEEDERSMANIA Admin",
+  description: "Admin dashboard for the SPEEDERSMANIA atelier",
 };
 
 export default function Page() {

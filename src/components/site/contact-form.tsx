@@ -152,12 +152,12 @@ export function ContactForm({ product }: { product?: Product }) {
           {
             icon: Mail,
             title: "Correspondence",
-            body: "atelier@equinox.shop\nPress: press@equinox.shop",
+            body: "atelier@SPEEDERSMANIA.shop\nPress: press@SPEEDERSMANIA.shop",
           },
           {
             icon: Clock,
             title: "Hours",
-            body: "Tue – Sat, 10:00 – 18:00 CET.\nClosed on the equinox, by tradition.",
+            body: "Tue – Sat, 10:00 – 18:00 CET.\nClosed on the SPEEDERSMANIA, by tradition.",
           },
         ].map((c) => (
           <div key={c.title} className="border-t border-line pt-6">
@@ -173,7 +173,7 @@ export function ContactForm({ product }: { product?: Product }) {
 
         <a
           href={whatsappLink(
-            "Hello Equinox! I'd like to ask about a piece."
+            "Hello SPEEDERSMANIA! I'd like to ask about a piece."
           )}
           target="_blank"
           rel="noopener noreferrer"

@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: PageProps<"/products/[slug]">
   const { slug } = await params;
   const product = await getCatalogueProduct(slug);
   return {
-    title: product ? `${product.name} — Equinox` : "Equinox",
-    description: product?.tagline ?? "Equinox — time & light.",
+    title: product ? `${product.name} — SPEEDERSMANIA` : "SPEEDERSMANIA",
+    description: product?.tagline ?? "SPEEDERSMANIA — time & light.",
   };
 }
 

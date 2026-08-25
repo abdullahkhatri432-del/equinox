@@ -32,7 +32,7 @@ export function AdminShell({
     <div className="flex min-h-[calc(100vh-4rem)]">
       <aside className="hidden w-60 shrink-0 flex-col border-r border-line bg-background md:flex">
         <div className="border-b border-line px-6 py-5">
-          <p className="eyebrow">Equinox</p>
+          <p className="eyebrow">SPEEDERSMANIA</p>
           <p className="display mt-1 text-xl">Atelier Console</p>
         </div>
         <nav className="flex-1 space-y-1 px-3 py-4" aria-label="Admin">

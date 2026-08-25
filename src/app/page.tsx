@@ -216,7 +216,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-4xl px-6 py-24 text-center">
           <p className="eyebrow">Newsletter</p>
           <h2 className="display mx-auto mt-4 max-w-2xl text-4xl sm:text-5xl">
-            A letter, roughly once per equinox.
+            A letter, roughly once per SPEEDERSMANIA.
           </h2>
           <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-muted">
             New calibres, lens drops and atelier stories. No more than four times
