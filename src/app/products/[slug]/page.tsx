@@ -12,6 +12,7 @@ import {
 import { getProduct, products } from "@/lib/products";
 import { ProductCard } from "@/components/site/product-card";
 import { AddToCart } from "@/components/site/add-to-cart";
+import { BuyNowButton } from "@/components/site/buy-now-button";
 import { formatPrice, FREE_SHIPPING_THRESHOLD, SHIPPING_FLAT_RATE } from "@/lib/utils";
 
 export function generateStaticParams() {
@@ -107,7 +108,8 @@ export default async function ProductPage(
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <AddToCart product={product} />
+            <AddToCart product={product} variant="outline" />
+            <BuyNowButton product={product} />
             <Link
               href={`/contact?product=${product.slug}`}
               className="inline-flex items-center gap-2 rounded-full border border-line px-7 py-3.5 text-sm tracking-wide text-foreground transition-colors hover:border-gold hover:text-gold"

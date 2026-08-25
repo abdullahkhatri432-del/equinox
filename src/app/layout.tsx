@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/site/navbar";
 import { Footer } from "@/components/site/footer";
 import { CartProvider } from "@/lib/cart-context";
+import { AuthProvider } from "@/lib/auth-context";
 import { CartDrawer } from "@/components/site/cart-drawer";
 
 const equinoxDisplay = Playfair_Display({
@@ -31,10 +32,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <CartProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CartDrawer />
+          <AuthProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <CartDrawer />
+          </AuthProvider>
         </CartProvider>
       </body>
     </html>

@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, ShoppingBag, Truck, X } from "lucide-react";
+import { Menu, ShoppingBag, Truck, User, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
+import { useAuth } from "@/lib/auth-context";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -19,6 +20,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { count, openCart } = useCart();
+  const { user, signOut } = useAuth();
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href.split("?")[0]);
@@ -80,6 +82,32 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-3">
+            {user ? (
+              <div className="flex items-center gap-2">
+                <span
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gold text-sm font-semibold text-gold"
+                  title={user.email}
+                  aria-label={`Signed in as ${user.name}`}
+                >
+                  {user.name.charAt(0).toUpperCase()}
+                </span>
+                <button
+                  type="button"
+                  onClick={signOut}
+                  className="hidden text-xs uppercase tracking-[0.18em] text-faint transition-colors hover:text-gold sm:block"
+                >
+                  Sign out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-foreground transition-colors hover:border-gold hover:text-gold"
+                aria-label="Sign in to your account"
+              >
+                <User size={18} />
+              </Link>
+            )}
             <button
               type="button"
               onClick={openCart}

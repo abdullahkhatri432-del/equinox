@@ -69,6 +69,7 @@
   --color-goldbright: var(--primary-strong);
   --color-copper: var(--accent);
   --color-amber: var(--accent-amber);
+  --color-wine: var(--eqx-wine);
 
   --font-display: var(--font-equinox-display);
   --font-sans: var(--font-equinox-sans);
