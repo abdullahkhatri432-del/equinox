@@ -7,6 +7,17 @@ import type { Product } from "@/lib/products";
 const FIELD =
   "w-full rounded-md border border-line bg-soft px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold";
 
+const LABEL = "mb-2 block text-xs tracking-wide text-muted";
+
+function RequiredMark() {
+  return (
+    <span aria-hidden className="text-gold">
+      {" "}
+      *
+    </span>
+  );
+}
+
 export function ContactForm({ product }: { product?: Product }) {
   const [sent, setSent] = useState(false);
 
@@ -26,23 +37,29 @@ export function ContactForm({ product }: { product?: Product }) {
           </div>
         )}
 
+        <p className="text-xs text-faint">
+          Fields marked <span className="text-gold">*</span> are required — the
+          atelier replies within one working day.
+        </p>
+
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
-            <label htmlFor="name" className="mb-2 block text-xs tracking-wide text-muted">
-              Full name
+            <label htmlFor="name" className={LABEL}>
+              Full name <RequiredMark />
             </label>
             <input
               id="name"
               name="name"
               required
+              minLength={2}
               autoComplete="name"
               className={FIELD}
               placeholder="Ada Lovelace"
             />
           </div>
           <div>
-            <label htmlFor="email" className="mb-2 block text-xs tracking-wide text-muted">
-              Email
+            <label htmlFor="email" className={LABEL}>
+              Email <RequiredMark />
             </label>
             <input
               id="email"
@@ -54,18 +71,38 @@ export function ContactForm({ product }: { product?: Product }) {
               placeholder="you@example.com"
             />
           </div>
+          <div>
+            <label htmlFor="phone" className={LABEL}>
+              Phone number <RequiredMark />
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              required
+              autoComplete="tel"
+              pattern="[+0-9][0-9 \-()]{5,20}"
+              title="Enter a valid phone number, e.g. +39 02 1234 5678"
+              className={FIELD}
+              placeholder="+39 02 1234 5678"
+            />
+          </div>
         </div>
 
         <div>
-          <label htmlFor="interest" className="mb-2 block text-xs tracking-wide text-muted">
-            I am writing about
+          <label htmlFor="interest" className={LABEL}>
+            I am writing about <RequiredMark />
           </label>
           <select
             id="interest"
             name="interest"
+            required
             className={FIELD}
-            defaultValue={product?.category ?? "a piece"}
+            defaultValue={product?.category ?? ""}
           >
+            <option value="" disabled>
+              Choose a topic…
+            </option>
             <option value="a piece">A specific piece</option>
             <option value="watches">The Hour — watches</option>
             <option value="sunglasses">The Light — sunglasses</option>
@@ -75,13 +112,14 @@ export function ContactForm({ product }: { product?: Product }) {
         </div>
 
         <div>
-          <label htmlFor="message" className="mb-2 block text-xs tracking-wide text-muted">
-            Message
+          <label htmlFor="message" className={LABEL}>
+            Message <RequiredMark />
           </label>
           <textarea
             id="message"
             name="message"
             required
+            minLength={10}
             rows={5}
             className={`${FIELD} resize-none`}
             placeholder="Tell us about the light you live in, the hour you keep…"
