@@ -1,132 +1,120 @@
-import { Shield, Settings, LogOut, Image as ImageIcon, Mail, Calendar, CheckCircle, XCircle, Loader2, Grid, List, Zap } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+  DEFAULT_SETTINGS,
+  getSettings,
+  saveSettings,
+  type StoreSettings,
+} from "@/lib/store";
+
+const LABEL = "mb-2 block text-sm font-medium text-gray-700";
+const FIELD =
+  "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-gold focus:outline-none";
 
 export function AdminSettingsPage() {
+  const [settings, setSettings] = useState<StoreSettings>(DEFAULT_SETTINGS);
+  const [saved, setSaved] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setSettings(getSettings());
+    setLoaded(true);
+  }, []);
+
+  if (!loaded) return null;
+
+  const update =
+    (key: keyof StoreSettings) =>
+    (
+      e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      const value =
+        key === "freeShippingThreshold" || key === "flatShippingRate"
+          ? Number(e.target.value) || 0
+          : e.target.value;
+      setSettings((s) => ({ ...s, [key]: value }));
+      setSaved(false);
+    };
+
   return (
-    <section className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
+    <section className="max-w-xl space-y-6">
+      <div className="space-y-4 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <h3 className="font-semibold text-gray-900">Store</h3>
+        <div>
+          <label htmlFor="set-name" className={LABEL}>
+            Store name
+          </label>
+          <input
+            id="set-name"
+            className={FIELD}
+            value={settings.storeName}
+            onChange={update("storeName")}
+          />
+        </div>
+        <div>
+          <label htmlFor="set-email" className={LABEL}>
+            Contact email
+          </label>
+          <input
+            id="set-email"
+            type="email"
+            className={FIELD}
+            value={settings.contactEmail}
+            onChange={update("contactEmail")}
+          />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* General Settings */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">General Settings</h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Store Name
-              </label>
-              <input
-                type="text"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:border-gold"
-                placeholder="Equinox Store"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Store Email
-              </label>
-              <input
-                type="email"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:border-gold"
-                placeholder="store@equinox.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Currency
-              </label>
-              <select className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:border-gold">
-                <option>USD - US Dollar</option>
-                <option>EUR - Euro</option>
-                <option>GBP - British Pound</option>
-                <option>CAD - Canadian Dollar</option>
-              </select>
-            </div>
-
-            <button
-              className="w-full px-4 py-2 bg-gold text-white rounded-lg hover:bg-goldbright transition-colors text-sm font-medium"
-              type="button">
-              Save Changes
-            </button>
+      <div className="space-y-4 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <h3 className="font-semibold text-gray-900">Shipping</h3>
+        <p className="text-sm text-gray-500">
+          These mirror the storefront thresholds — keep them in sync with{" "}
+          <code className="rounded bg-gray-100 px-1.5 py-0.5 text-xs">
+            src/lib/utils.ts
+          </code>{" "}
+          until the backend drives both.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="set-threshold" className={LABEL}>
+              Free shipping over (€)
+            </label>
+            <input
+              id="set-threshold"
+              type="number"
+              min={0}
+              className={FIELD}
+              value={settings.freeShippingThreshold}
+              onChange={update("freeShippingThreshold")}
+            />
           </div>
-        </div>
-
-        {/* Appearance Settings */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Appearance</h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Theme
-              </label>
-              <div className="flex items-center gap-2">
-                <label className="flex-1">
-                  <input
-                    type="radio"
-                    name="theme"
-                    className="rounded w-4 h-4 border-gray-400 focus-visible:ring-primary-500"
-                    checked
-                  />
-                  Light
-                </label>
-                <label className="flex-1">
-                  <input
-                    type="radio"
-                    name="theme"
-                    className="rounded w-4 h-4 border-gray-400 focus-visible:ring-primary-500"
-                  />
-                  Dark
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Primary Color
-              </label>
-              <p className="text-sm text-gray-500">#4f46e5</p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Logo
-              </label>
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                <ImageIcon className="w-5 h-5 text-gray-400" />
-                <span className="text-sm text-gray-500">equinox-logo.svg</span>
-                <button className="text-xs text-gold hover:text-goldbright">Change</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* API Settings */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">API Settings</h3>
-          <p className="text-sm text-gray-500 mb-4">
-            Manage API keys for third-party integrations and developer access.
-          </p>
-          <div className="space-y-3">
-            <div>
-              <p className="text-sm text-gray-500 mb-2">API Key Status</p>
-              <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Active</span>
-            </div>
-
-            <div>
-              <p className="text-sm text-gray-500 mb-2">Last API Usage</p>
-              <span className="text-xs text-gray-500">2 hours ago</span>
-            </div>
-
-            <button
-              className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-              Regenerate Key
-            </button>
+          <div>
+            <label htmlFor="set-rate" className={LABEL}>
+              Flat rate (€)
+            </label>
+            <input
+              id="set-rate"
+              type="number"
+              min={0}
+              className={FIELD}
+              value={settings.flatShippingRate}
+              onChange={update("flatShippingRate")}
+            />
           </div>
         </div>
       </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          saveSettings(settings);
+          setSaved(true);
+        }}
+        className="rounded-full bg-gold px-8 py-3 text-sm font-semibold text-background transition-colors hover:bg-goldbright"
+      >
+        {saved ? "Saved ✓" : "Save settings"}
+      </button>
     </section>
   );
 }

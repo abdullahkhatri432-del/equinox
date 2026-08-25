@@ -9,6 +9,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { registerUser } from "@/lib/store";
 
 export interface AuthUser {
   name: string;
@@ -89,6 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signUp: async (name, email) => {
         await new Promise((r) => setTimeout(r, 800));
         const resolved: AuthUser = { name, email };
+        registerUser({ name, email });
         persist(resolved);
         return resolved;
       },

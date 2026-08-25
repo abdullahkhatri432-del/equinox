@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { products } from "@/lib/products";
+import { saveOrder, type OrderStatus } from "@/lib/store";
 import {
   cn,
   formatPrice,
@@ -33,9 +34,8 @@ export default function CheckoutPage() {
   const { items, subtotal, clear } = useCart();
   const [placed, setPlaced] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
-  const [orderNo] = useState(
-    () => `EQ-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
-  );
+  const [orderNo, setOrderNo] = useState<string | null>(null);
+  const [shipForm, setShipForm] = useState<Record<string, string> | null>(null);
 
   const shipping =
     subtotal >= FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : SHIPPING_FLAT_RATE;
@@ -123,6 +123,12 @@ export default function CheckoutPage() {
           className={cn("space-y-10", step !== 1 && "hidden")}
           onSubmit={(e) => {
             e.preventDefault();
+            setShipForm(
+              Object.fromEntries(new FormData(e.currentTarget)) as Record<
+                string,
+                string
+              >
+            );
             setStep(2);
           }}
         >
@@ -211,6 +217,32 @@ export default function CheckoutPage() {
           className={cn("space-y-10", step !== 2 && "hidden")}
           onSubmit={(e) => {
             e.preventDefault();
+            if (!shipForm) {
+              setStep(1);
+              return;
+            }
+            const order = saveOrder({
+              customer: {
+                name: shipForm.name ?? "",
+                email: shipForm.email ?? "",
+                phone: shipForm.phone ?? "",
+                address: shipForm.address ?? "",
+                city: shipForm.city ?? "",
+                zip: shipForm.zip ?? "",
+                country: shipForm.country ?? "",
+              },
+              items: items.map((i) => ({
+                slug: i.slug,
+                name: i.name,
+                price: i.price,
+                quantity: i.quantity,
+                costPrice: products.find((p) => p.slug === i.slug)?.costPrice,
+              })),
+              subtotal,
+              shipping,
+              total,
+            });
+            setOrderNo(order.id);
             clear();
             setPlaced(true);
           }}

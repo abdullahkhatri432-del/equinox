@@ -1,121 +1,70 @@
-import { Users, Shield, Settings, LogOut, Image as ImageIcon, Mail, Calendar, CheckCircle, XCircle, Loader2, Grid, List, Zap } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { Users } from "lucide-react";
+import { getUsers, formatOrderDate, STORE_EVENT } from "@/lib/store";
 
 export function UsersManagementPage() {
+  const [users, setUsers] = useState<
+    Array<{ name: string; email: string; createdAt: number }>
+  >([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const refresh = () => setUsers(getUsers());
+    refresh();
+    setLoaded(true);
+    window.addEventListener(STORE_EVENT, refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener(STORE_EVENT, refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
+
+  if (!loaded) return null;
+
+  if (users.length === 0) {
+    return (
+      <div className="rounded-xl border border-dashed border-gray-300 py-20 text-center">
+        <Users className="mx-auto h-10 w-10 text-gray-300" />
+        <p className="mt-4 font-semibold text-gray-900">No accounts yet</p>
+        <p className="mx-auto mt-1 max-w-sm text-sm text-gray-500">
+          Customers who create an account at /signup appear here automatically.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <section className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">User Management</h2>
-        <button className="px-4 py-2 bg-gold text-white rounded-lg hover:bg-goldbright transition-colors">
-          Invite User
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Users List */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead>
-                <tr className="text-left text-xs text-gray-500 uppercase bg-gray-50">
-                  <th className="py-3 px-6 font-medium text-gray-500">User ID</th>
-                  <th className="py-3 px-6 font-medium text-gray-500">Name</th>
-                  <th className="py-3 px-6 font-medium text-gray-500">Email</th>
-                  <th className="py-3 px-6 font-medium text-gray-500">Role</th>
-                  <th className="py-3 px-6 font-medium text-gray-500">Status</th>
-                  <th className="py-3 px-6 font-medium text-gray-500">Last Activity</th>
-                  <th className="py-3 px-6 font-medium text-gray-500">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b last:border-0 hover:bg-gray-50">
-                  <td className="py-4 px-6 font-medium text-gray-900">USR-001</td>
-                  <td className="py-4 px-6">Alex Johnson</td>
-                  <td className="py-4 px-6">
-                    <a href="mailto:alex@equinox.com" className="text-gold hover:text-goldbright text-sm">alex@equinox.com</a>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="px-2 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">Admin</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Active</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="text-xs text-gray-500">2 hours ago</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <div className="flex gap-2">
-                      <button className="text-gold hover:text-goldbright text-sm">Edit</button>
-                      <button className="text-red-600 hover:text-red-500 text-sm">Delete</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="bg-gray-50 last:border-0">
-                  <td className="py-4 px-6 font-medium text-gray-900">USR-002</td>
-                  <td className="py-4 px-6">Maria Rodriguez</td>
-                  <td className="py-4 px-6">
-                    <a href="mailto:maria@equinox.com" className="text-gold hover:text-goldbright text-sm">maria@equinox.com</a>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="px-2 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">Editor</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">Active</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="text-xs text-gray-500">1 day ago</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <div className="flex gap-2">
-                      <button className="text-gold hover:text-goldbright text-sm">Edit</button>
-                      <button className="text-red-600 hover:text-red-500 text-sm">Delete</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="border-b last:border-0 hover:bg-gray-50">
-                  <td className="py-4 px-6 font-medium text-gray-900">USR-003</td>
-                  <td className="py-4 px-6">Chris Wang</td>
-                  <td className="py-4 px-6">
-                    <a href="mailto:chris@equinox.com" className="text-gold hover:text-goldbright text-sm">chris@equinox.com</a>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="px-2 py-1 text-xs font-medium bg-primary-100 text-primary-800 rounded-full">Viewer</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">Suspended</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <span className="text-xs text-gray-500">3 days ago</span>
-                  </td>
-                  <td className="py-4 px-6">
-                    <div className="flex gap-2">
-                      <button className="text-gold hover:text-goldbright text-sm">Activate</button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* User Statistics */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">User Statistics</h3>
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <p className="text-2xl font-bold text-gold">4,523</p>
-              <p className="text-sm text-gray-500">Total Users</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-emerald-600">3,891</p>
-              <p className="text-sm text-gray-500">Active Users</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-amber-600">632</p>
-              <p className="text-sm text-gray-500">Suspended Users</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+      <table className="min-w-full divide-y divide-gray-100 text-left text-sm">
+        <thead>
+          <tr className="bg-gray-50 text-xs uppercase text-gray-500">
+            <th className="px-6 py-3 font-medium">Customer</th>
+            <th className="px-6 py-3 font-medium">Email</th>
+            <th className="px-6 py-3 font-medium">Joined</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-50">
+          {users.map((u) => (
+            <tr key={u.email} className="hover:bg-gray-50">
+              <td className="px-6 py-3.5">
+                <span className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold/15 text-sm font-semibold text-gold">
+                    {u.name.charAt(0).toUpperCase()}
+                  </span>
+                  <span className="font-medium text-gray-900">{u.name}</span>
+                </span>
+              </td>
+              <td className="px-6 py-3.5 text-gray-600">{u.email}</td>
+              <td className="px-6 py-3.5 text-gray-500">
+                {formatOrderDate(u.createdAt)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

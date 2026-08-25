@@ -5,6 +5,8 @@ export interface Product {
   name: string;
   category: ProductCategory;
   price: number;
+  /** Your wholesale cost from the supplier, for margin tracking */
+  costPrice?: number;
   image: string;
   tagline: string;
   description: string;
@@ -52,6 +54,7 @@ export const products: Product[] = [
     name: "Meridian 38",
     category: "watches",
     price: 1850,
+    costPrice: 1050,
     image: "/images/products/meridian-38.jpg",
     tagline: "The quiet chronometer",
     description:
@@ -77,6 +80,7 @@ export const products: Product[] = [
     name: "Solstice Diver",
     category: "watches",
     price: 1240,
+    costPrice: 690,
     image: "/images/products/solstice-diver.jpg",
     tagline: "Depth, illuminated",
     description:
@@ -101,6 +105,7 @@ export const products: Product[] = [
     name: "Aurelia Bone",
     category: "watches",
     price: 2970,
+    costPrice: 1680,
     image: "/images/products/aurelia-bone.jpg",
     tagline: "Ceramic, warm as daylight",
     description:
@@ -126,6 +131,7 @@ export const products: Product[] = [
     name: "Umbra Automatic",
     category: "watches",
     price: 980,
+    costPrice: 540,
     image: "/images/products/umbra-auto.jpg",
     tagline: "Night, automated",
     description:
@@ -149,6 +155,7 @@ export const products: Product[] = [
     name: "Thalassa Quartz",
     category: "watches",
     price: 540,
+    costPrice: 290,
     image: "/images/products/thalassa-quartz.jpg",
     tagline: "A sea-green everyday",
     description:
@@ -172,6 +179,7 @@ export const products: Product[] = [
     name: "Helios GMT",
     category: "watches",
     price: 1490,
+    costPrice: 820,
     image: "/images/products/helios-gmt.jpg",
     tagline: "Two cities, one dial",
     description:
@@ -197,6 +205,7 @@ export const products: Product[] = [
     name: "Radiant 01",
     category: "sunglasses",
     price: 320,
+    costPrice: 175,
     image: "/images/products/radiant-01.jpg",
     tagline: "The original gradient",
     description:
@@ -220,6 +229,7 @@ export const products: Product[] = [
     name: "Gleam Aviator",
     category: "sunglasses",
     price: 410,
+    costPrice: 230,
     image: "/images/products/gleam-aviator.jpg",
     tagline: "Above the weather",
     description:
@@ -244,6 +254,7 @@ export const products: Product[] = [
     name: "Noir Square",
     category: "sunglasses",
     price: 285,
+    costPrice: 155,
     image: "/images/products/noir-square.jpg",
     tagline: "The architectural frame",
     description:
@@ -266,6 +277,7 @@ export const products: Product[] = [
     name: "Dune Tortoise",
     category: "sunglasses",
     price: 350,
+    costPrice: 195,
     image: "/images/products/dune-tortoise.jpg",
     tagline: "Warmth in the amber",
     description:
@@ -288,6 +300,7 @@ export const products: Product[] = [
     name: "Crest Vision",
     category: "sunglasses",
     price: 460,
+    costPrice: 260,
     image: "/images/products/crest-vision.jpg",
     tagline: "For the long horizon",
     description:
@@ -310,6 +323,7 @@ export const products: Product[] = [
     name: "Lume Half",
     category: "sunglasses",
     price: 260,
+    costPrice: 140,
     image: "/images/products/lume-half.jpg",
     tagline: "Half frame, full view",
     description:
