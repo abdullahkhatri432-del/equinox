@@ -61,7 +61,7 @@ export function Navbar() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <Link href="/" className="flex items-baseline gap-2">
             <span className="display text-2xl tracking-wide text-foreground">
-              SPEEDERSMANIA
+              Speedersmania
             </span>
             <span className="eyebrow hidden sm:inline">Time &amp; Light</span>
           </Link>

@@ -8,19 +8,19 @@ import { AuthProvider } from "@/lib/auth-context";
 import { CartDrawer } from "@/components/site/cart-drawer";
 import { WhatsAppFloat } from "@/components/site/whatsapp-float";
 
-const SPEEDERSMANIADisplay = Playfair_Display({
-  variable: "--font-SPEEDERSMANIA-display",
+const SpeedersmaniaDisplay = Playfair_Display({
+  variable: "--font-Speedersmania-display",
   subsets: ["latin"],
   style: ["normal", "italic"],
 });
 
-const SPEEDERSMANIASans = Manrope({
-  variable: "--font-SPEEDERSMANIA-sans",
+const SpeedersmaniaSans = Manrope({
+  variable: "--font-Speedersmania-sans",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "SPEEDERSMANIA — Time & Light",
+  title: "Speedersmania — Time & Light",
   description:
     "Precision timepieces and sun-crafted eyewear. Watches engineered to the second, sunglasses tuned to the light.",
 };
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${SPEEDERSMANIADisplay.variable} ${SPEEDERSMANIASans.variable} h-full antialiased`}
+      className={`${SpeedersmaniaDisplay.variable} ${SpeedersmaniaSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <CartProvider>

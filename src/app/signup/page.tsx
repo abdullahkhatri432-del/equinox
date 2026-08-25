@@ -3,8 +3,8 @@ import { AuthShell } from "@/components/site/auth-shell";
 import { SignupForm, SignupFooter } from "@/components/site/signup-form";
 
 export const metadata: Metadata = {
-  title: "Create your account — SPEEDERSMANIA",
-  description: "Join the house of SPEEDERSMANIA.",
+  title: "Create your account — Speedersmania",
+  description: "Join the house of Speedersmania.",
 };
 
 export default function SignupPage() {
@@ -12,7 +12,7 @@ export default function SignupPage() {
     <AuthShell
       eyebrow="Join the house"
       title="An account worth keeping."
-      subtitle="Create your SPEEDERSMANIA account to follow orders from atelier to doorstep and reserve limited pieces before they surface."
+      subtitle="Create your Speedersmania account to follow orders from atelier to doorstep and reserve limited pieces before they surface."
       footer={<SignupFooter />}
     >
       <SignupForm />

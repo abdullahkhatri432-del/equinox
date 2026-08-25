@@ -45,16 +45,16 @@ export interface StoreSettings {
 }
 
 export const DEFAULT_SETTINGS: StoreSettings = {
-  storeName: "SPEEDERSMANIA",
-  contactEmail: "atelier@SPEEDERSMANIA.shop",
+  storeName: "Speedersmania",
+  contactEmail: "support@speedersmania.com",
   freeShippingThreshold: 1500,
   flatShippingRate: 45,
 };
 
-const ORDERS_KEY = "SPEEDERSMANIA-orders-v1";
-const USERS_KEY = "SPEEDERSMANIA-users-v1";
-const SETTINGS_KEY = "SPEEDERSMANIA-settings-v1";
-export const STORE_EVENT = "SPEEDERSMANIA-store-changed";
+const ORDERS_KEY = "Speedersmania-orders-v1";
+const USERS_KEY = "Speedersmania-users-v1";
+const SETTINGS_KEY = "Speedersmania-settings-v1";
+export const STORE_EVENT = "Speedersmania-store-changed";
 
 function emit() {
   if (typeof window !== "undefined") {

@@ -3,8 +3,8 @@ import { AuthShell } from "@/components/site/auth-shell";
 import { LoginForm, LoginFooter } from "@/components/site/login-form";
 
 export const metadata: Metadata = {
-  title: "Sign in — SPEEDERSMANIA",
-  description: "Access your SPEEDERSMANIA account.",
+  title: "Sign in — Speedersmania",
+  description: "Access your Speedersmania account.",
 };
 
 export default function LoginPage() {

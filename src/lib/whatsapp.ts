@@ -8,13 +8,13 @@ export function whatsappLink(message: string) {
 }
 
 export function generalInquiryLink() {
-  return whatsappLink("Hello SPEEDERSMANIA! I have a question.");
+  return whatsappLink("Hello Speedersmania! I have a question.");
 }
 
 export function productInquiryLink(product: Product) {
   return whatsappLink(
     [
-      "Hello SPEEDERSMANIA! 👋",
+      "Hello Speedersmania! 👋",
       "",
       `I'm interested in: ${product.name} — ${formatEur(product.price)}`,
       "",
@@ -29,7 +29,7 @@ export function cartOrderLink(
   customer?: Record<string, string>
 ) {
   const lines = [
-    "Hello SPEEDERSMANIA! 🛍️",
+    "Hello Speedersmania! 🛍️",
     "",
     "I would like to order:",
     "",

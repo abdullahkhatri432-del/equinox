@@ -25,7 +25,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const STORAGE_KEY = "SPEEDERSMANIA-user-v1";
+const STORAGE_KEY = "Speedersmania-user-v1";
 
 function readStoredUser(): AuthUser | null {
   try {
